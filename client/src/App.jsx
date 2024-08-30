@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { lazy, Suspense } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import Home from './home/Home';
+import Signup from './components/Signup';
+import Login from "./components/Login";
+import AboutUs from './components/AboutUs';
+import Contact from "./components/Contact";
+import Profile from "./pages/Profile";
+import Book from "./pages/Book";
+
+// Lazy load the components
+
+const Courses = lazy(() => import("./courses/Courses"));
+
+// Fallback loading component
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <p>Loading...</p>
+  </div>
+);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const authUser = useSelector((state) => state.auth.user);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className=" bg-slate-900 text-white">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/course"
+            element={authUser ? <Courses /> : <Navigate to="/signup" />}
+          />
+          <Route path ="/login" element={<Login />}/>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/aboutUs" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/book/:id" element={<Book />} />
+
+        </Routes>
+      <Toaster />
+    </div>
+  );
 }
 
-export default App
+export default App;
