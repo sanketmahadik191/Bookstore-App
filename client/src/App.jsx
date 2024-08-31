@@ -23,9 +23,9 @@ const LoadingFallback = () => (
 
 function App() {
   const authUser = useSelector((state) => state.auth.user);
-
   return (
     <div className=" bg-slate-900 text-white">
+      { console.log(import.meta.env.VITE_BACKEND_LINK)}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
