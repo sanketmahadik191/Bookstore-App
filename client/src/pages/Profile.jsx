@@ -33,7 +33,7 @@ function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:10000/api/user/updateProfile", formData);
+      const res = await axios.post("/api/user/updateProfile", formData);
       dispatch(login(res.data.user));
       toast.success("Profile updated successfully");
     } catch (error) {

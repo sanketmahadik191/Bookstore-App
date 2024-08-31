@@ -23,6 +23,9 @@ const bookSchema = mongoose.Schema ({
         type:Number,
         required:true,
     },
+    description:{
+        type:String,
+    }
 })
 
 const Book = new mongoose.model('Book',bookSchema);

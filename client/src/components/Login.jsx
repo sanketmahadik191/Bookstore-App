@@ -18,7 +18,7 @@ function Login() {
   const onSubmit = async (data) => {
     
     try {
-      const res = await axios.post("http://localhost:10000/api/user/signIn", data);
+      const res = await axios.post("/api/user/signIn", data);
        console.log(res.data);
        
       if (res.data) {

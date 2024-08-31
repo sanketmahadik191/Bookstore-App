@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
-
+import React, { useEffect, useState, useCallback ,startTransition } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
@@ -14,9 +13,12 @@ function Navbar() {
     setSticky(window.scrollY > 0);
   }, []);
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     if (query) {
-      navigate(`/course?q=${query}`);
+      startTransition(() => {
+        navigate(`/course?q=${query}`);
+      });
     }
   };
 
@@ -82,41 +84,42 @@ function Navbar() {
           <div className="hidden lg:flex space-x-8 items-center">
             <ul className="flex space-x-8 items-center">{navItems}</ul>
             <div className="relative">
-              <label className="input input-bordered flex items-center gap-2">
-                <input
-                  type="text"
-                  className="grow text-black"
-                  placeholder="Search"
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                  }}
-                />
-               <button
-                className=" text-black p-2 rounded-r-md hover:bg-gray-200 transition"
-                onClick={() => navigate(`/course?q=${query}`)}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  className="h-5 w-5"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                    clipRule="evenodd"
+              <form onSubmit={handleSearch}>
+                <label className="input input-bordered flex items-center gap-2">
+                  <input
+                    type="text"
+                    className="grow text-black"
+                    placeholder="Search"
+                    value={query}
+                    onChange={(e) => {
+                      setQuery(e.target.value);
+                    }}
                   />
-                </svg>
-              </button>
-              </label>
+                  <button
+                    type="submit"
+                    className="text-black p-2 rounded-r-md hover:bg-gray-200 transition"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </label>
+              </form>
             </div>
           </div>
           <div className="flex items-center space-x-3">
             {authUser ? (
-              // <Logout />
               <div
-                className="h-14 w-14 flex items-center justify-center cursor-pointer rounded-full  hover:bg-slate-600 transition"
+                className="h-14 w-14 flex items-center justify-center cursor-pointer rounded-full hover:bg-slate-600 transition"
                 onClick={() => navigate("/profile")}
               >
                 <CgProfile className="h-10 w-10 text-white" />

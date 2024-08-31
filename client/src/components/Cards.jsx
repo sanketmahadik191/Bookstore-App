@@ -15,7 +15,7 @@ function Cards({ item }) {
   };
 
   return (
-    <div className="mt-4 my-3 p-3" onClick={handleClick}>
+    <div key={item._id} className="mt-4 my-3 p-3" onClick={handleClick}>
       <div className="card w-92 bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transform duration-300 ease-in-out dark:bg-slate-900 dark:text-white dark:border dark:hover:border-gray-500 order-100">
         <figure className="overflow-hidden">
           <img

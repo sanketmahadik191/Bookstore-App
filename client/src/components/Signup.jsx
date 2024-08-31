@@ -20,7 +20,7 @@ function Signup() {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:10000/api/user/signUp", data);
+      const res = await axios.post("/api/user/signUp", data);
       if (res.data) {
         toast.success("Signup Successful");
         dispatch(login(res.data.user));

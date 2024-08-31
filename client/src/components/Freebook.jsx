@@ -11,7 +11,7 @@ function Freebook() {
   useEffect(() => {
     const getBook = async () => {
       try {
-        const res = await axios.get("http://localhost:10000/api/book/get");
+        const res = await axios.get("/api/book/get");
         const data = res.data;
         setBook(data);
       } catch (error) {
@@ -72,7 +72,7 @@ function Freebook() {
         <div className="relative">
           <Slider {...settings}>
             {book.map((item) => (
-              <div key={item.id} className="p-4">
+              <div key={item._id} className="p-4">
                 <Cards item={item} />
               </div>
             ))}
