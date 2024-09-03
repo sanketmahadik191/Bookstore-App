@@ -19,20 +19,18 @@ function Book() {
           />
         </div>
         <div className="md:w-1/2 md:ml-8">
-          <h1 className="text-3xl font-bold text-gray-100 dark:text-white mb-4">
+          <h1 className="text-4xl font-bold mb-4 text-purple-100 ">
             {book.name}
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
-            <span className="font-semibold">Category:</span> {book.category}
+            <span className="font-semibold text-purple-600 ">Category:</span> {book.category}
           </p>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
-            <span className="font-semibold">Title:</span> {book.title}
-          </p>
-          <p className="text-lg text-purple-600 dark:text-purple-400 mb-4">
-            <span className="font-semibold">Price:</span> ${book.price}
+  
+          <p className="text-lg  mb-4">
+            <span className="font-semibold text-purple-600 ">Price:</span> ${book.price}
           </p>
           <p className="text-lg text-gray-600 dark:text-gray-300">
-            <span className="font-semibold">Description:</span>{" "}
+            <span className="font-semibold text-purple-600 ">Description:</span>{" "}
             {book.description}
           </p>
         </div>

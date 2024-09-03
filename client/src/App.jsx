@@ -9,6 +9,7 @@ import AboutUs from './components/AboutUs';
 import Contact from "./components/Contact";
 import Profile from "./pages/Profile";
 import Book from "./pages/Book";
+import AddBook from "./pages/AddBook";
 
 // Lazy load the components
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/book/:id" element={<Book />} />
+          <Route path="/addBook" element={<AddBook />} />
 
         </Routes>
       <Toaster />

@@ -23,7 +23,7 @@ function Login() {
        
       if (res.data) {
         toast.success("Logged in successfully");
-        dispatch(login(res.data.user));
+        dispatch(login({user:res.data.user,token:res.data.token}));
         navigate("/");  // Redirect to home after successful login
       }
     } catch (err) {

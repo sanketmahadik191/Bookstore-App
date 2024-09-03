@@ -1,8 +1,11 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const dotenv = require('dotenv');
 
-const signUp = async (req, res) => {
+dotenv.config();
+
+const signUp = async (req, res,next) => {
   try {
     const { fullname, email, password } = req.body;
 
@@ -16,19 +19,18 @@ const signUp = async (req, res) => {
     const newUser = new User({ fullname, email, password: hashedPassword });
     await newUser.save();
 
-    const token = jwt.sign({ _id: newUser._id }, process.env.JWT_KEY, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ _id: newUser._id }, process.env.JWT_KEY);
 
     res.status(201).json({
       message: "User craeted succesfully",
       user: {
         _id: newUser._id,
-        fullname: newUser.fullName,
+        fullname: newUser.fullname,
         email: newUser.email,
         role: newUser.role,
+       
       },
-      token,
+      token:token
     });
   } catch (err) {
     console.log(err + "err");
@@ -53,12 +55,8 @@ const signIn = async (req, res, next) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY);
     console.log(user);
-
-    console.log(user.fullname);
 
     res.status(200).json({
       message: "Login successful",
@@ -67,8 +65,9 @@ const signIn = async (req, res, next) => {
         fullname: user.fullname,
         email: user.email,
         role: user.role,
+        
       },
-      token,
+      token:token
     });
   } catch (err) {
     console.error("Error during sign in:", err);
@@ -78,28 +77,29 @@ const signIn = async (req, res, next) => {
 
 const updateUser = async(req, res, next) => {
   try {
-    const data = req.body;
-    const user = await User.findById(req.body.userId);
-    console.log(user);
+    const { userId, fullname, email, oldPassword, newPassword } = req.body;
+    if (!userId) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
 
+    const user = await User.findById(req.body.userId);
+    
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    user.fullname = data.fullname || user.fullname;
-    user.email = data.email || user.email;
-
-    if (data.oldPassword && data.newPassword) {
+   if(fullname) user.fullname = fullname;
+   
+    if (oldPassword && newPassword) {
       // Validate old password
-      const isMatch = await bcrypt.compare(user.password, data.oldPassword);
+      const isMatch = await bcrypt.compare(oldPassword, user.password);
       if (!isMatch) {
         return res.status(400).json({ message: "Old password is incorrect" });
       }
-      user.password = await bcrypt.hash(data.newPassword, salt);
+      user.password = await bcrypt.hash(newPassword, 10);
     }
-
+   
     const updateUser = await user.save();
-
     res.status(200).json({
       message: "Profile updated successfully",
       user: updateUser,

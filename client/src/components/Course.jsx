@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Cards from "./Cards";
 import axios from "axios";
-import {useLocation, Link } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 
 function Course() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -15,11 +15,13 @@ function Course() {
       setError(null); // Reset error before fetching
 
       try {
-        const queryParams = new URLSearchParams(location.search);
-        const query = queryParams.get('q');
-        
-        const { data } = await axios.get("/api/book/search", { params: { q: query } });
-        
+        const query = searchParams.get('q') || "";
+        const token = localStorage.getItem('token');
+
+        const { data } = await axios.get("/api/book/search", { params: { q: query },headers: {
+          Authorization: token,
+        }, });
+
         setBooks(data);
       } catch (err) {
         setError("Failed to fetch books. Please check your connection and try again.");
@@ -29,7 +31,7 @@ function Course() {
     };
 
     fetchBooks();
-  }, [location.search]);
+  }, [searchParams]);
 
   return (
     <div className="max-w-screen-2xl container mx-auto md:px-20 px-4">

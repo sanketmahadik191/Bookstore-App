@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback ,startTransition } from "react";
+import React, { useEffect, useState, useCallback, startTransition } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
@@ -16,6 +16,7 @@ function Navbar() {
   const handleSearch = (e) => {
     e.preventDefault();
     if (query) {
+      // Use startTransition to handle navigation which may cause suspension
       startTransition(() => {
         navigate(`/course?q=${query}`);
       });
@@ -35,7 +36,16 @@ function Navbar() {
         <Link to="/">Home</Link>
       </li>
       <li className="px-4 py-2 hover:bg-gray-100 rounded-md transition">
-        <Link to="/course">Course</Link>
+        {/* Wrap the navigation to Course in startTransition */}
+        <button
+          onClick={() =>
+            startTransition(() => {
+              navigate("/course");
+            })
+          }
+        >
+          Course
+        </button>
       </li>
       <li className="px-4 py-2 hover:bg-gray-100 rounded-md transition">
         <Link to="/contact">Contact</Link>
@@ -48,7 +58,9 @@ function Navbar() {
 
   return (
     <div
-      className={`w-full pt-4 fixed top-0 z-50 transition-all ${sticky ? "bg-white text-black shadow-lg" : "bg-slate-900 text-white"} py-3`}
+      className={`w-full pt-4 fixed top-0 z-50 transition-all ${
+        sticky ? "bg-white text-black shadow-lg" : "bg-slate-900 text-white"
+      } py-3`}
     >
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
@@ -57,7 +69,9 @@ function Navbar() {
               <button tabIndex={0} className="btn btn-ghost">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className={`h-6 w-6 transition-colors ${sticky ? "text-black" : "text-white"}`}
+                  className={`h-6 w-6 transition-colors ${
+                    sticky ? "text-black" : "text-white"
+                  }`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -119,7 +133,8 @@ function Navbar() {
           <div className="flex items-center space-x-3">
             {authUser ? (
               <div
-                className="h-14 w-14 flex items-center justify-center cursor-pointer rounded-full hover:bg-slate-600 transition"
+                className={`h-14 w-14 flex items-center justify-center cursor-pointer rounded-full hover:bg-slate-500 transition ${
+                  sticky ? "bg-slate-700" : ""}`}
                 onClick={() => navigate("/profile")}
               >
                 <CgProfile className="h-10 w-10 text-white" />

@@ -6,33 +6,35 @@ import axios from "axios";
 import Cards from "./Cards";
 
 function Freebook() {
-  const [book, setBook] = useState([]);
+  const [books, setBooks] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getBook = async () => {
+    const getBooks = async () => {
       try {
-        const res = await axios.get("/api/book/get");
-        const data = res.data;
-        setBook(data);
+        const res = await axios.get("/api/book/getFreeBook");
+        setBooks(res.data);
       } catch (error) {
-        console.log(error);
+        setError("Failed to fetch books. Please try again later.");
+        console.error(error);
       }
     };
-    getBook();
+
+    getBooks();
   }, []);
 
-  var settings = {
+  const settings = {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToShow: 5,
+    slidesToScroll: 4,
     initialSlide: 0,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
           slidesToScroll: 3,
           infinite: true,
           dots: true,
@@ -57,29 +59,33 @@ function Freebook() {
   };
 
   return (
-    <>
-      <div className="max-w-screen-2xl container mx-auto md:px-20 px-4 py-10">
-        <div className="text-center mb-8">
-          <h1 className="font-bold text-3xl pb-4 text-purple-600">
-            Free Offered Courses
-          </h1>
-          <p className="text-gray-600 text-lg">
-            Discover a wide range of free courses designed to help you expand
-            your knowledge and skills. Enroll today and start learning!
-          </p>
-        </div>
+    <div className="max-w-screen-2xl mx-auto px-8 py-10">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl font-bold text-purple-600 mb-4">
+          Free Offered Courses
+        </h1>
+        <p className="text-lg text-gray-600">
+          Discover a wide range of free courses designed to help you expand
+          your knowledge and skills. Enroll today and start learning!
+        </p>
+      </div>
 
-        <div className="relative">
-          <Slider {...settings}>
-            {book.map((item) => (
-              <div key={item._id} className="p-4">
+      {error && <p className="text-red-500 text-center">{error}</p>}
+
+      <div className="relative">
+        <Slider {...settings}>
+          {books.length > 0 ? (
+            books.map((item) => (
+              <div key={item._id} className="p-4 flex ">
                 <Cards item={item} />
               </div>
-            ))}
-          </Slider>
-        </div>
+            ))
+          ) : (
+            <div className="text-center p-4">No books available</div>
+          )}
+        </Slider>
       </div>
-    </>
+    </div>
   );
 }
 

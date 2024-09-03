@@ -23,7 +23,7 @@ function Signup() {
       const res = await axios.post("/api/user/signUp", data);
       if (res.data) {
         toast.success("Signup Successful");
-        dispatch(login(res.data.user));
+        dispatch(login({user:res.data.user,token:res.data.token}));
         navigate("/");  // Redirect to login after successful signup
       }
     } catch (err) {

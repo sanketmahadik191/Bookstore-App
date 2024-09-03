@@ -15,10 +15,38 @@ const getBook = async (req, res, next) => {
   }
 };
 
+const getFreeBook = async (req, res, next) => {  
+  try {
+    const books = await Book.find({ category: 'free' });
+
+    if (!books) {
+      throw { statusCode: 404, message: "Books Free Books Available" }; // Custom error
+    }
+    res.status(200).json(books);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const addBook = async (req, res, next) => {
   try {
-    const { name, image, category, title, price } = req.body;
-    const newBook = Book({ name, image, category, title, price });
+    const { name, image, category,price,description} = req.body;
+    console.log(req.body);
+    console.log(req.user);
+    console.log(45);
+    if (!name || !category || !description || !price) {
+      return res.status(400).json({
+        message: "Missing required fields: name, category, title, or price.",
+      });
+    }
+    const newBook = new Book({
+      name,
+      image:"",
+      category,
+      userId:req.user,
+      price,
+      description,
+    });
 
     await newBook.save();
     res.status(201).json({
@@ -32,25 +60,18 @@ const addBook = async (req, res, next) => {
 
 const searchBook = async (req, res, next) => {
   try {
-    const query = req.query.q;
-    console.log(query);
+    let query = req.query.q || "";
 
-    if (!query || typeof query !== "string") {
-      console.log(45);
-      
-      return res.status(400).json({ message: "Invalid search query" });
-    }
-    
     const books = await Book.find({
       $or: [
         { name: { $regex: query, $options: "i" } },
-        { category: { $regex: query, $options: "i" } }
-      ]
+        { category: { $regex: query, $options: "i" } },
+      ],
     });
     if (books.length === 0) {
       return res.status(404).json({ message: "No books found" });
     }
-   
+
     res.status(200).json(books);
   } catch (err) {
     next(err);
@@ -121,6 +142,6 @@ const addToWishlist = async (req, res, next) => {
   }
 };
 
-const books = { getBook, addBook, searchBook, userBooks, editBooks };
+const books = { getBook, addBook, searchBook, userBooks, editBooks ,getFreeBook };
 
 module.exports = books;

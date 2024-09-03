@@ -33,11 +33,17 @@ function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/user/updateProfile", formData);
+      const token = localStorage.getItem('token');
+      const res = await axios.post("/api/user/updateProfile", formData,{
+        headers:{
+            Authorization: token,
+        }
+      });
       dispatch(login(res.data.user));
       toast.success("Profile updated successfully");
     } catch (error) {
-      toast.error("Failed to update profile");
+      const errorMsg = error.response?.data?.message || "Failed to update profile";
+      toast.error(errorMsg);
     }
   };
 
@@ -78,7 +84,7 @@ function Profile() {
                 id="email"
                 name="email"
                 value={formData.email}
-                onChange={handleChange}
+                disabled
                 className="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
             </div>
@@ -127,9 +133,10 @@ function Profile() {
           <div className="flex justify-between mb-6">
             <button
               type="button"
+              onClick={()=>navigate('/addBook')}
               className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition w-1/2 mr-2"
             >
-              Manage Books
+              Add Book
             </button>
             <button
               type="submit"
