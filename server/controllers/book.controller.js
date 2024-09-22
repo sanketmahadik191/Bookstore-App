@@ -32,11 +32,9 @@ const addBook = async (req, res, next) => {
   try {
     const { name, image, category,price,description} = req.body;
     console.log(req.body);
-    console.log(req.user);
-    console.log(45);
-    if (!name || !category || !description || !price) {
-      return res.status(400).json({
-        message: "Missing required fields: name, category, title, or price.",
+    if (!name|| !description) {
+      return res.status(500).json({
+        message: "Missing required fields: name, category, title",
       });
     }
     const newBook = new Book({
