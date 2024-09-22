@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import Book from "./pages/Book";
 import AddBook from "./pages/AddBook";
 
+
 // Lazy load the components
 
 const Courses = lazy(() => import("./courses/Courses"));
@@ -31,7 +32,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route
             path="/course"
-            element={authUser ? <Courses /> : <Navigate to="/signup" />}
+            element={authUser ? <Courses /> : <Navigate to="/login" />}
           />
           <Route path ="/login" element={<Login />}/>
           <Route path="/signup" element={<Signup />} />
@@ -40,7 +41,6 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/book/:id" element={<Book />} />
           <Route path="/addBook" element={<AddBook />} />
-
         </Routes>
       <Toaster />
     </div>

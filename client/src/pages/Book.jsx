@@ -27,7 +27,7 @@ function Book() {
           </p>
   
           <p className="text-lg  mb-4">
-            <span className="font-semibold text-purple-600 ">Price:</span> ${book.price}
+            <span className="font-semibold text-purple-600 ">Price:</span> {book.category ==="free"? 0:`${book.price}` }
           </p>
           <p className="text-lg text-gray-600 dark:text-gray-300">
             <span className="font-semibold text-purple-600 ">Description:</span>{" "}

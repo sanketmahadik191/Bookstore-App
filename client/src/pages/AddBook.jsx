@@ -7,15 +7,25 @@ const AddBook = () => {
     name: '',
     image: '',
     category: 'free',
-    price: 1,
+    price: 0,
     description: '',
   });
 
   const handleChange = (e) => {
+    const {name ,value} = e.target;
+  
+    if(name ==="category" && value ==="free"){
     setBookData({
       ...bookData,
-      [e.target.name]: e.target.value,
-    });
+      category: value,
+      price:0,
+    });}
+    else{
+      setBookData({
+        ...bookData,
+        [name]:value,  
+      })
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -59,6 +69,19 @@ const AddBook = () => {
 
           {/* Price and Category */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
+              <select
+                name="category"
+                value={bookData.category}
+                onChange={handleChange}
+                required
+                className="block w-full px-2 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="paid">Paid</option>
+                <option value="free">Free</option>
+              </select>
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Price</label>
               <input
@@ -67,22 +90,10 @@ const AddBook = () => {
                 value={bookData.price}
                 onChange={handleChange}
                 required
+                disabled={bookData.category ==='free'}
                 min={0}
                 className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-              <select
-                name="category"
-                value={bookData.category}
-                onChange={handleChange}
-                required
-                className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              >
-                <option value="paid">Paid</option>
-                <option value="free">Free</option>
-              </select>
             </div>
           </div>
 

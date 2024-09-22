@@ -62,7 +62,7 @@ function Freebook() {
     <div className="max-w-screen-2xl mx-auto px-8 py-10">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-purple-600 mb-4">
-          Free Offered Courses
+          Free Offered Books
         </h1>
         <p className="text-lg text-gray-600">
           Discover a wide range of free courses designed to help you expand

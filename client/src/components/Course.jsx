@@ -24,7 +24,7 @@ function Course() {
 
         setBooks(data);
       } catch (err) {
-        setError("Failed to fetch books. Please check your connection and try again.");
+        setError("No Avilable Books");
       } finally {
         setLoading(false);
       }

@@ -10,12 +10,20 @@ function ContactUs() {
       className="min-h-screen flex items-center justify-center bg-cover bg-center relative"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
-      {/* Semi-transparent Dark Container */}
-      <div className="max-w-lg w-full bg-gray-300 bg-opacity-60 p-8 rounded-lg shadow-lg relative">
-        <h2 className="text-3xl font-bold text-gray-700 text-center mb-8">
+      {/* Semi-transparent Dark Overlay */}
+      <div className="absolute inset-0 bg-black bg-opacity-70"></div>
+
+      {/* Form Container */}
+      <div className="relative max-w-lg w-full bg-white bg-opacity-80 p-8 rounded-lg shadow-2xl">
+        <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">
           Contact Us
         </h2>
-        <form className="space-y-6">
+        <form 
+          action="https://formspree.io/f/mpwaglkn"
+          target="blank"
+          method="POST"
+          className="space-y-6"
+        >
           {/* Name Input */}
           <div>
             <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
@@ -25,7 +33,7 @@ function ContactUs() {
               type="text"
               id="name"
               name="name"
-              className="w-full px-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 bg-gray-700 text-white"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-400 bg-gray-100 text-gray-900"
               placeholder="Your Name"
               required
             />
@@ -40,7 +48,7 @@ function ContactUs() {
               type="text"
               id="contact"
               name="contact"
-              className="w-full px-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 bg-gray-700 text-white"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-400 bg-gray-100 text-gray-900"
               placeholder="Your Email or Phone Number"
               required
             />
@@ -54,7 +62,7 @@ function ContactUs() {
             <textarea
               id="message"
               name="message"
-              className="w-full px-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 bg-gray-700 text-white"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-4 focus:ring-blue-400 bg-gray-100 text-gray-900"
               placeholder="Your Message"
               rows="4"
               required
@@ -65,7 +73,7 @@ function ContactUs() {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300 ease-in-out"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300 ease-in-out"
             >
               Send Message
             </button>
@@ -75,7 +83,7 @@ function ContactUs() {
         {/* Back to Home Button */}
         <button
           onClick={() => navigate('/')}
-          className="absolute top-4 right-4 text-gray-700 hover:text-gray-500 focus:outline-none text-2xl"
+          className="absolute top-4 right-4 text-white hover:text-gray-300 focus:outline-none text-2xl"
           aria-label="Close"
         >
           ✕
